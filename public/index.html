@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SatQuery VQA</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <h1>SatQuery AI</h1>
+
+        <p class="subtitle">
+            Single-Image Satellite Visual Question Answering
+        </p>
+
+
+        <section class="card">
+
+            <h2>1. Upload Satellite Image</h2>
+
+            <input
+                type="file"
+                id="imageInput"
+                accept="image/png,image/jpeg,image/webp"
+            >
+
+            <img
+                id="preview"
+                alt="Satellite image preview"
+                class="hidden"
+            >
+
+        </section>
+
+
+        <section class="card">
+
+            <h2>2. Ask a Question</h2>
+
+            <textarea
+                id="question"
+                placeholder="Example: Is there a water body visible in this satellite image?"
+            ></textarea>
+
+        </section>
+
+
+        <button id="askButton">
+            Analyze Satellite Image
+        </button>
+
+
+        <div
+            id="loading"
+            class="hidden loading"
+        >
+            Analyzing image...
+        </div>
+
+
+        <section
+            id="answerSection"
+            class="card hidden"
+        >
+
+            <h2>SatQuery Answer</h2>
+
+            <p id="answer"></p>
+
+        </section>
+
+
+        <section
+            id="errorSection"
+            class="error hidden"
+        >
+
+            <p id="error"></p>
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
