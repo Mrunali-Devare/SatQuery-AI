@@ -1,100 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>SatQuery VQA</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SatQuery AI</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+<main class="app">
 
-    <main class="container">
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
 
-        <h1>SatQuery AI</h1>
-
-        <p class="subtitle">
-            Single-Image Satellite Visual Question Answering
-        </p>
-
-
-        <section class="card">
-
-            <h2>1. Upload Satellite Image</h2>
-
-            <input
-                type="file"
-                id="imageInput"
-                accept="image/png,image/jpeg,image/webp"
-            >
-
-            <img
-                id="preview"
-                alt="Satellite image preview"
-                class="hidden"
-            >
-
-        </section>
-
-
-        <section class="card">
-
-            <h2>2. Ask a Question</h2>
-
-            <textarea
-                id="question"
-                placeholder="Example: Is there a water body visible in this satellite image?"
-            ></textarea>
-
-        </section>
-
-
-        <button id="askButton">
-            Analyze Satellite Image
-        </button>
-
-
-        <div
-            id="loading"
-            class="hidden loading"
-        >
-            Analyzing image...
+    <header class="header">
+        <div class="brand-wrap">
+            <span class="brand-dot"></span>
+            <div>
+                <div class="brand">SatQuery AI</div>
+            </div>
         </div>
+        <div class="status">
+            <span class="status-dot"></span>
+            VQA service ready
+        </div>
+    </header>
 
+    <!-- =====================================================
+         MAIN WORKSPACE
+         ===================================================== -->
 
-        <section
-            id="answerSection"
-            class="card hidden"
-        >
+    <section class="workspace">
 
-            <h2>SatQuery Answer</h2>
+        <!-- =================================================
+             LEFT PANEL — IMAGE
+             ================================================= -->
 
-            <p id="answer"></p>
+        <section class="panel panel-left">
+            <!-- Panel Header -->
+            <div class="panel-header">
+                <div class="panel-title">Satellite Image</div>
+                <div class="panel-subtitle">Upload one satellite image to begin analysis.</div>
+            </div>
 
+            <!-- Upload -->
+            <div class="upload-section">
+                <label for="imageInput" class="upload-box" id="uploadBox">
+                    <div class="upload-icon">↑</div>
+                    <div class="upload-title">Upload satellite imagery</div>
+                    <div class="upload-text">PNG · JPEG · WEBP · TIFF / GeoTIFF</div>
+                    <span class="upload-button">Select image</span>
+                </label>
+
+                <input type="file" id="imageInput" accept="image/png,image/jpeg,image/webp,image/tiff,.tif,.tiff" hidden>
+            </div>
+
+            <!-- =================================================
+                 PREVIEW
+                 ================================================= -->
+
+            <div class="preview-wrapper hidden" id="previewWrapper">
+                <div class="preview-label">Image Preview</div>
+                <div class="image-container">
+                    <img id="preview" alt="Satellite image preview" class="hidden">
+                    <canvas id="groundingCanvas" class="hidden"></canvas>
+                </div>
+
+                <div class="image-status">
+                    <span>●</span>
+                    Image ready for single-image VQA
+                </div>
+
+                <div id="groundingInfo" class="grounding-info hidden"></div>
+            </div>
         </section>
 
+        <!-- =================================================
+             RIGHT PANEL — QUESTION
+             ================================================= -->
 
-        <section
-            id="errorSection"
-            class="error hidden"
-        >
+        <section class="panel panel-right">
 
-            <p id="error"></p>
+            <!-- Panel Header -->
+            <div class="panel-header">
+                <div class="panel-title">Ask SatQuery</div>
+                <div class="panel-subtitle">Ask a natural-language question about the image.</div>
+            </div>
 
+            <!-- Question -->
+            <div class="question-area">
+                <div class="question-label">Natural-language query</div>
+
+                <textarea id="question" placeholder="Ask about land cover, objects, water bodies, vegetation, roads, or spatial features..."></textarea>
+                <div class="question-footer">
+                    <span class="hint">Ask one question about the uploaded satellite image.</span>
+
+                    <button id="askButton" type="button">Analyze Image</button>
+                </div>
+            </div>
+
+            <!-- =================================================
+                 ANSWER
+                 ================================================= -->
+
+            <section id="answerSection" class="answer-panel hidden">
+                <div class="answer-header">
+                    <div>
+                        <div class="answer-label">SATQUERY RESULT</div>
+                        <div class="answer-title">Analysis</div>
+                    </div>
+                    <div id="answerType" class="answer-type hidden"></div>
+                </div>
+                <div class="answer-content">
+                    <div id="answer" class="answer-text"></div>
+
+                    <!--These elements are kept because script.js currently references them.They are hidden from the user.-->
+                    <div id="confidence" class="internal-detail"></div>
+                    <div id="evidence" class="internal-detail"></div>
+                    <div id="caveat"class="internal-detail"></div>
+                    <div id="imageInfo" class="internal-detail"></div>
+                    <div id="execution" class="internal-detail">
+                    <div id="executionSteps"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- =================================================
+                 ERROR
+                 ================================================= -->
+
+            <section id="errorSection" class="error hidden">
+                <div class="error-icon">!</div>
+                <p id="error"></p>
+            </section>
         </section>
+    </section>
 
-    </main>
+    <!-- =====================================================
+         LOADING
+         ===================================================== -->
 
+    <div id="loading" class="loading hidden">
+        <div class="loading-box">
+            <span class="spinner"></span>
+            <span>Analyzing satellite image...</span>
+        </div>
+    </div>
 
-    <script src="script.js"></script>
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="footer">
+        <span>Single-image satellite visual question answering</span>
+    </footer>
+</main>
+
+<script src="script.js"></script>
 
 </body>
-
 </html>
